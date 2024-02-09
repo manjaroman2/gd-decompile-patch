@@ -2,6 +2,9 @@ from pathlib import Path
 from argparse import ArgumentParser
 import subprocess
 
+from common import exdir
+exdir=Path(exdir)
+
 p = ArgumentParser()
 p.add_argument("--hash", type=str)
 args = p.parse_args()
@@ -9,9 +12,8 @@ args = p.parse_args()
 base = Path(__file__).parent
 
 def apply(file: Path):
-    # print(f"cd {base.parent} && git apply {file}")
     print(file.read_text())
-    subprocess.check_output(f"cd {base.parent} && git apply {file}", shell=True)
+    subprocess.check_output(f"cd {exdir} && git apply {file}", shell=True)
 
 if args.hash:
     for patch in base.glob("*.patch"):
